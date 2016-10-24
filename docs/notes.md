@@ -1,6 +1,7 @@
 # References
 https://blog.bergeron.io/simple-web-architecture-with-docker/
 https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
+http://containertutorials.com/docker-compose/flask-mongo-compose.html
 
 # Howto
 
@@ -86,15 +87,10 @@ navigate to /server
 Get the ip and then go to the ip:81 in your browser
 At this stage you should be able to run both dockerfiles on the same host
 
+## Where's my database? 
 
-## Setup database
-
-### Create dockerfile for database
-
-navigate to root
-    > mkdir db
-
-create dockerfile for db (based on https://docs.docker.com/engine/examples/mongodb/)
+We'll use the official mongodb image from dockerhub, so we don't need a dockerfile for the db
+https://hub.docker.com/_/mongo/
 
 ## Link everything together
 
@@ -103,10 +99,5 @@ create docker-compose.yml (see example file)
 
 ## Test everything together
 
-build everything
-
-    ./server $ docker build -t tomedge/nemp-server .
-    ./client $ docker build -t tomedge/nemp-client .
-    ./db $ docker build -t tomedge/nemp-db .
-
-    $docker-compose up 
+    $ docker-compose build 
+    $ docker-compose up 

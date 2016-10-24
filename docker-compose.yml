@@ -1,9 +1,9 @@
 client:
-    image: tomedge/menp-client
+    build: client/.
     ports:
         - "80:80"
 server:
-    image: tomedge/menp-server
+    build: server/.
     links:
         - db
     ports:
@@ -17,7 +17,7 @@ server:
         DB_USER: todo
         DB_PASS: mypass
 db:
-    image: tomedge/menp-db
+    image: mongo:3.2
     environment:
         DB_NAME: todo
         DB_USER: todo
