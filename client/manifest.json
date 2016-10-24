@@ -1,0 +1,6 @@
+{
+  "name": "api tester",
+  "short_name": "api tester",
+  "start_url": "/",
+  "display": "standalone"
+}
