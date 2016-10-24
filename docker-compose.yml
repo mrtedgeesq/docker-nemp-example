@@ -1,0 +1,24 @@
+client:
+    image: tomedge/menp-client
+    ports:
+        - "80:80"
+server:
+    image: tomedge/menp-server
+    links:
+        - db
+    ports:
+        - "3000:3000"
+    environment:
+        ENV: production
+        DB_HOST: db
+        DB_PORT: 27017
+        DB_ADAPTER: todo
+        DB_DATABASE: todo
+        DB_USER: todo
+        DB_PASS: mypass
+db:
+    image: tomedge/menp-db
+    environment:
+        DB_NAME: todo
+        DB_USER: todo
+        DB_PASS: todo
