@@ -10,7 +10,6 @@ router.route('/ping')
 
   //get all archived batches
   .get(function(req, res) {
-      console.log(res);
       res.send('Pong');
   });
 
