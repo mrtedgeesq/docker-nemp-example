@@ -1,0 +1,9 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/client-app/client-app.html",
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ]
+}

@@ -2,6 +2,7 @@
 https://blog.bergeron.io/simple-web-architecture-with-docker/
 https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
 http://containertutorials.com/docker-compose/flask-mongo-compose.html
+http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
 
 # Howto
 

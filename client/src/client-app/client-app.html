@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="client-app">
   <template>
     <style>
@@ -7,7 +8,15 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <h2>Polymer Example Client App</h2>
+    <p>If you can see this then client has loaded properly</p> 
+    <paper-button on-tap="ping">Ping Server</paper-button>
+    <iron-ajax 
+      id="api"
+      handle-as="json"
+      content-type="application/json"
+      on-response="_handleResponse"
+      debounce-duration="300"></iron-ajax>
   </template>
 
   <script>
@@ -22,6 +31,21 @@
         },
       },
 
+      ping: function() {
+       console.log('ping');
+       var api = this.$.api;
+       api.url = '/api/ping';
+       api.method = 'POST'
+       api.generateRequest();
+      },
+
+      _handleResponse: function(e) {
+          if (!e.detail.response) {
+            console.error('Error with ' + e.target.method + ' ' + this.path, 'No response', e);
+            return;
+          }
+          console.log('Pong', e);
+        },
     });
   </script>
 </dom-module>

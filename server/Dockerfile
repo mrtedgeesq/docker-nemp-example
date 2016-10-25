@@ -16,14 +16,17 @@ RUN apt-get update
 #Clean the package manager?
 RUN apt-get clean
 
-#Copy everything else to a folder called server
-COPY . /opt/server
-
 #set the working dir as the folder we've just created
 WORKDIR /opt/server
 
+#Copy package json
+COPY ./package.json /opt/server/package.json
+
 #install the app dependencies
 RUN npm install
+
+#Copy everything else to a folder called server
+COPY . /opt/server
 
 #TODO add gulp build process if necessary
 #RUN gulp build
