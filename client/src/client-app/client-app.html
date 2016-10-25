@@ -11,12 +11,25 @@
     <h2>Polymer Example Client App</h2>
     <p>If you can see this then client has loaded properly</p> 
     <paper-button on-tap="ping">Ping Server</paper-button>
+
+    <!--Using byutv-jsonp instead of iron-ajax as we're making requests cross
+    domain. Once iron-ajax issue #74 is fixed we could look at switching back-->
+    <!--https://github.com/PolymerElements/iron-ajax/issues/74-->
+
+    <!--<byutv-jsonp
+      id="api"
+      handle-as="json"
+      content-type="application/json"
+      on-response="_handleResponse"
+      debounce-duration="300"></byutv-jsonp>-->
+
     <iron-ajax 
       id="api"
       handle-as="json"
       content-type="application/json"
       on-response="_handleResponse"
       debounce-duration="300"></iron-ajax>
+      
   </template>
 
   <script>
@@ -34,18 +47,14 @@
       ping: function() {
        console.log('ping');
        var api = this.$.api;
-       api.url = '/api/ping';
-       api.method = 'POST'
+       api.url = location.protocol + "//" + location.hostname + ':3000/api/ping';
+       api.method = 'GET'
        api.generateRequest();
       },
 
       _handleResponse: function(e) {
-          if (!e.detail.response) {
-            console.error('Error with ' + e.target.method + ' ' + this.path, 'No response', e);
-            return;
-          }
-          console.log('Pong', e);
-        },
+          console.log(e);
+      },
     });
   </script>
 </dom-module>
