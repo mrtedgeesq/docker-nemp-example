@@ -2,6 +2,14 @@
 
 This project gives an example of how to get the NEMP stack to play nice when everything is containerised with Docker.
 
+# NEMP stack?
+
+Node, Express, Mongo & Polymer. 
+
+It's basically the MEAN stack with Polymer instead of Angular, but NEMP is easier to say than MEPN
+
+I :heart: this stack
+
 # How to use
 
 If you just want to jump straight in and give this a try navigate to the project root and run
@@ -16,14 +24,6 @@ you should see three ticks in the status boxes if everything is ok
 
 To stop run
     docker-compose down
-
-# NEMP stack?
-
-Node, Express, Mongo & Polymer. 
-
-It's basically the MEAN stack with Polymer instead of Angular, but NEMP is easier to say than MEPN
-
-I :heart: this stack
 
 # References
 
