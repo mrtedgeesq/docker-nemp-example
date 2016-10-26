@@ -1,27 +1,30 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <dom-module id="client-app">
   <template>
-    <style>
+    <style include="iron-flex iron-flex-alignment">
       :host {
         display: block;
       }
+
+      paper-card{
+        width: 600px;
+        margin-top:16px;
+        padding: 16px;
+      }
+      paper-checkbox{
+        margin-top:8px;
+      }
+      .message { 
+        margin-bottom:16px;
+      }
     </style>
-    <h2>Polymer Example Client App</h2>
-    <p>If you can see this then client has loaded properly</p> 
-    <paper-button on-tap="ping">Ping Server</paper-button>
-
-    <!--Using byutv-jsonp instead of iron-ajax as we're making requests cross
-    domain. Once iron-ajax issue #74 is fixed we could look at switching back-->
-    <!--https://github.com/PolymerElements/iron-ajax/issues/74-->
-
-    <!--<byutv-jsonp
-      id="api"
-      handle-as="json"
-      content-type="application/json"
-      on-response="_handleResponse"
-      debounce-duration="300"></byutv-jsonp>-->
 
     <iron-ajax 
       id="api"
@@ -29,7 +32,38 @@
       content-type="application/json"
       on-response="_handleResponse"
       debounce-duration="300"></iron-ajax>
-      
+
+    <paper-toolbar>
+      <span class="title">
+        Polymer Example Client App
+      </span>
+    </paper-toolbar>
+    <div class="layout horizontal center-justified">
+      <div class="layout vertical">
+        <paper-card heading="Status" class="card-content">
+          <div class="card-content layout vertical">
+            <paper-checkbox checked="{clientok}}">Client Loaded</paper-checkbox>
+            <paper-checkbox checked="{{serverok}}">Server Connected</paper-checkbox>
+            <paper-checkbox checked="{{dbok}}">Db Connected</paper-checkbox>
+          </div>
+        </paper-card>
+        <paper-card heading="Message" class="card-content">
+          <div class="card-content layout horizontal">
+            <paper-input class="flex" label="Message" value="{{message}}"></paper-input>
+            <paper-button on-tap="save">Save</paper-button>
+          </div>
+        </paper-card>
+        <paper-card heading="Messages" class="card-content">
+          <div class="card-content layout vertical">
+            <template is="dom-repeat"items="[[messages]]">
+              <div class="layout horizontal center-justified">
+                <div class="message">[[item.content]]</div>
+              </div>
+            </template>
+          </div>
+        </paper-card>
+      </div>
+    </div>
   </template>
 
   <script>
@@ -38,23 +72,81 @@
       is: 'client-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'client-app',
+         clientok: {
+          type: Boolean,
+          value: true,
         },
+        serverok: {
+          type: Boolean,
+          value: false,
+        },
+        dbok: {
+          type: Boolean,
+          value: false,
+        },
+        message: {
+          type: String,
+          value: ""
+        },
+        messages: {
+          type: Array,
+        }
       },
 
-      ping: function() {
-       console.log('ping');
-       var api = this.$.api;
-       api.url = location.protocol + "//" + location.hostname + ':3000/api/ping';
-       api.method = 'GET'
-       api.generateRequest();
+      ready: function() {
+        this.checkConnection();
+        this.getData();
+        console.log(this.messages);
+      },
+
+      checkConnection: function() {
+        console.log('checking connections');
+        var api = this.$.api;
+        api.url = location.protocol + '//' + location.hostname + ':3000/api/test';
+        api.method = 'GET'
+        api.generateRequest();
+      },
+
+      getData: function() {
+        console.log('getting data');
+        var api = this.$.api;
+        api.url = location.protocol + '//' + location.hostname + ':3000/api/messages';
+        api.method = 'GET'
+        api.generateRequest();
+      },
+
+      save: function() {
+        console.log('saving to db');
+        var api = this.$.api;
+        api.url = location.protocol + '//' + location.hostname + ':3000/api/messages';
+        api.method = 'POST'
+        api.body = {'message': this.message};
+        api.generateRequest();
+        api.body = {}; //Reset the body so we don't accidentally send it on subsequent calls
       },
 
       _handleResponse: function(e) {
-          console.log(e);
-      },
+          var res = e.detail.response;
+          if (!res)
+          {
+            console.log('No data in response', e);
+            return;
+          }
+
+          console.log('Response from server', res);
+
+          if (res.connections) {
+            //The connections object contains values which tell you which bits of the system are working
+            this.set('serverok', res.connections.server);
+            this.set('dbok', res.connections.db);
+          }
+
+          //If the response is an array of items then assign it to the messages property
+          if (Object.prototype.toString.call(res) === '[object Array]')
+          {
+             this.set('messages', res);
+          }
+        },
     });
   </script>
 </dom-module>
