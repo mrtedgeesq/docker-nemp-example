@@ -126,9 +126,9 @@ Because the client and server will be on different ports, if we try to make a ca
 
 This needs to go immediately after the `var app = express();` line:
 
+```javascript
 var app = express();
 
-```javascript
 // Allow cross origin resource sharing
 app.use(function(req, res, next) {
 
@@ -165,11 +165,13 @@ create Dockerfile (see example file /server/dockerfile)
 ### Test server on docker
 
 navigate to /server
+```
     $ docker build -t tomedge/nemp-server .
     docker run -p 3000:3000 -d tomedge/nemp-server
     $ docker-machine ip 
-Get the ip and then go to the ip:81 in your browser
-At this stage you should be able to run both dockerfiles on the same host
+```    
+
+At this stage you should be able to run both dockerfiles on the same host & check them against each other.
 
 ## Link everything together
 
@@ -183,6 +185,7 @@ https://hub.docker.com/_/mongo/
 
 Our docker_compose service for the db looks like this:
 
+```
 mongo:
     image: mongo:3.2
     ports:
@@ -193,9 +196,10 @@ mongodata:
     image: tianon/true
     volumes:
         - /data/db
+```
 
-db pulls an appropriate mongo image and opens port 27017, the standard mongo port.
-it then uses volumes_from to abstract the data into a data container for maximum portability.
+The mongo service pulls an appropriate mongo image and opens port 27017, the standard mongo port.
+It then uses `volumes_from` to abstract the data into a data container for maximum portability.
 By doing this, multiple instances can share the same data container and also allows for easy backup and restore functionality.
 
 Note - we use tianon/true for the image. All this does is return `true` - we're just using it as a blank image so that we can set up the volumes
@@ -207,4 +211,4 @@ Note - we use tianon/true for the image. All this does is return `true` - we're 
 
 ## TODO 
 
-Remove db access stuff from api.js file and put in its own file.
+* Remove db access stuff from api.js file and put in its own file.
