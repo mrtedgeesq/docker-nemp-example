@@ -5,9 +5,11 @@ This project gives an example of how to get Node, Express, Mongo + Polymer to pl
 # How to use
 
 If you just want to jump straight in and give this a try navigate to the project root and run
+
     docker-compose build
     docker-compose up -d
     docker-machine ip
+    
 then go to the given ip in your browser
 
 you should see three ticks in the status boxes if everything is ok
@@ -41,19 +43,22 @@ https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
 
 # Howto
 
-install node
-install polymer cli
-install docker
-install docker-compose
-install express generator
-    npm install express-generator -g
+## Setup environment
+Install:
+* node
+* polymer cli
+* docker
+* docker-compose
+* express generator
 
 ## Setup sample polymer project
 
-navigate to root
+navigate to project root:
+
     mkdir client
     cd client
     polymer init
+    
 select 'application' for basic application setup
 
 ### Test application
@@ -62,25 +67,29 @@ select 'application' for basic application setup
 
 ## Setup app for serving on Nginx
 
-navigate to root
-    cd /client
+navigate to /client
+
     mkdir conf/nginx
     cd conf/nginx
+    
 create file nginx.conf (see example file for content)
 
 ### Create dockerfile for client
 
 Client will be served in production with Nginx therefore we need to provide a config file
+
 navigate to /client
-create Dockerfile (see example file /client/dockerfile)
+create Dockerfile (see example file /client/Dockerfile)
 
 ## Test client on docker
 
 Start docker (using docker quickstart terminal)
+
     $ docker build -t tomedge/nemp-client .
     $ docker run -p 80:80 -d tomedge/nemp-client
     $ docker-machine ip 
-Get the ip and then go to the ip in your browser
+    
+Go to the ip shown in your browser
 
 ## (Optional) Stop the docker container
 
@@ -98,6 +107,7 @@ Stop the appropriate container using
 ## Create express app & install dependencies
 
 navigate to root
+
     express server
     cd server
     npm install
@@ -105,11 +115,38 @@ navigate to root
 ## Add api methods and mongoose
 
     npm install --save mongoose
+    
 Have a look at the api methods in api.js to see how we talk to the db
 
 ## Make app CORS compatible !Important
 
-TODO - see app.use() just after app is defined
+Because the client and server will be on different ports, if we try to make a call to the server we'll get a cross origin resource sharing (CORS) exception. In order to get round that, we need to add some headers to the response from the server to allow CORS. We do that by adding a piece of middleware to the express setup.
+
+This needs to go immediately after the `var app = express();` line:
+
+var app = express();
+
+```javascript
+// Allow cross origin resource sharing
+app.use(function(req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+```
 
 ### Test server
 
@@ -132,6 +169,11 @@ navigate to /server
 Get the ip and then go to the ip:81 in your browser
 At this stage you should be able to run both dockerfiles on the same host
 
+## Link everything together
+
+navigate to root
+create docker-compose.yml (see example file)
+
 ## Where's my database? 
 
 We'll use the official mongodb image from dockerhub, so we don't need a dockerfile for the db
@@ -139,26 +181,22 @@ https://hub.docker.com/_/mongo/
 
 Our docker_compose service for the db looks like this:
 
-db:
+mongo:
     image: mongo:3.2
     ports:
         - "27017:27017"
     volumes_from:
-        - dbdata
-dbdata:
+        - mongodata
+mongodata:
     image: tianon/true
     volumes:
         - /data/db
-    command: echo 'Data Container for docker-nemp-example'
 
 db pulls an appropriate mongo image and opens port 27017, the standard mongo port.
 it then uses volumes_from to abstract the data into a data container for maximum portability.
 By doing this, multiple instances can share the same data container and also allows for easy backup and restore functionality.
 
-## Link everything together
-
-navigate to root
-create docker-compose.yml (see example file)
+Note - we use tianon/true for the image. All this does is return `true` - we're just using it as a blank image so that we can set up the volumes
 
 ## Test everything together
 
@@ -167,4 +205,4 @@ create docker-compose.yml (see example file)
 
 ## TODO 
 
-Remove db access stuff from api.js file and put in it's own file.
+Remove db access stuff from api.js file and put in its own file.
