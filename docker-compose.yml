@@ -2,23 +2,24 @@ client:
     build: client/.
     ports:
         - "80:80"
+        
 server:
     build: server/.
     links:
-        - db
+        - mongo
     ports:
         - "3000:3000"
     environment:
         ENV: production
-        DB_HOST: db
-        DB_PORT: 27017
-        DB_ADAPTER: todo
-        DB_DATABASE: todo
-        DB_USER: todo
-        DB_PASS: mypass
-db:
+
+mongo:
     image: mongo:3.2
-    environment:
-        DB_NAME: todo
-        DB_USER: todo
-        DB_PASS: todo
+    ports:
+        - "27017:27017"
+    volumes_from:
+        - mongodata
+
+mongodata:
+    image: tianon/true
+    volumes:
+        - /data/db
