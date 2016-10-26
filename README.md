@@ -1,6 +1,6 @@
 # TL;DR
 
-This project gives an example of how to get Node, Express, Mongo + Polymer to play nice when everything is containerised with Docker.
+This project gives an example of how to get the NEMP stack to play nice when everything is containerised with Docker.
 
 # How to use
 
