@@ -23,6 +23,7 @@ then go to the given ip in your browser
 you should see three ticks in the status boxes if everything is ok
 
 To stop run
+
     docker-compose down
 
 # References
