@@ -29,21 +29,21 @@ To stop run
 
 Thanks to the authors of all the posts below, these have been a great help!
 
-How to build a 3 tier architecture in docker
+* How to build a 3 tier architecture in docker
 https://blog.bergeron.io/simple-web-architecture-with-docker/
 
-Great article which explains how to set up mongo in docker amongst other things
+* Great article which explains how to set up mongo in docker amongst other things
 https://medium.com/@sunnykay/docker-development-workflow-node-express-mongo-4bb3b1f7eb1e#.oqolacqz2
 
-Mongoose Getting Started
+* Mongoose Getting Started
 http://mongoosejs.com/docs/ 
 
-Using polymer cli to build polymer app in docker
+* Using polymer cli to build polymer app in docker
 https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
 
 # Howto
 
-If you want to do something similar, follow the steps below. Note: I haven't tested this procedure - these were just my rough notes as I built this example. Please let me know if you have any issues with it and try to help you.
+If you want to do something similar, follow the steps below. Note: I haven't tested this procedure - these were just my rough notes as I built this example. Please let me know if you have any issues with it and I'll try to help you.
 
 ## Setup environment
 Install:
@@ -83,12 +83,12 @@ Client will be served in production with Nginx therefore we need to provide a co
 navigate to /client
 create Dockerfile (see example file /client/Dockerfile)
 
-## Test client on docker
+## Test client dockerfile
 
 Start docker (using docker quickstart terminal)
 
-    $ docker build -t tomedge/nemp-client .
-    $ docker run -p 80:80 -d tomedge/nemp-client
+    $ docker build -t yourname/nemp-client .
+    $ docker run -p 80:80 -d yourname/nemp-client
     $ docker-machine ip 
     
 Go to the ip shown in your browser
@@ -100,7 +100,7 @@ Go to the ip shown in your browser
 This will output something like 
 
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                NAMES
-    61f519699247        tomedge/nemp-client      "nginx"             About an hour ago   Up About an hour    0.0.0.0:80->80/tcp   sleepy_nobel
+    61f519699247        yourname/nemp-client      "nginx"             About an hour ago   Up About an hour    0.0.0.0:80->80/tcp   sleepy_nobel
 
 Stop the appropriate container using 
 
@@ -162,12 +162,12 @@ open http://localhost:3000/ in browser
 navigate to /server
 create Dockerfile (see example file /server/dockerfile)
 
-### Test server on docker
+### Test server dockerfile
 
 navigate to /server
 ```
-    $ docker build -t tomedge/nemp-server .
-    docker run -p 3000:3000 -d tomedge/nemp-server
+    $ docker build -t yourname/nemp-server .
+    docker run -p 3000:3000 -d yourname/nemp-server
     $ docker-machine ip 
 ```    
 
