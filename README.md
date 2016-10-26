@@ -63,7 +63,7 @@ navigate to project root:
     
 select 'application' for basic application setup
 
-### Test application
+## Test application
 
     polymer serve --open
 
@@ -76,7 +76,7 @@ navigate to /client
     
 create file nginx.conf (see example file for content)
 
-### Create dockerfile for client
+## Create dockerfile for client
 
 Client will be served in production with Nginx therefore we need to provide a config file
 
@@ -150,19 +150,19 @@ app.use(function(req, res, next) {
 });
 ```
 
-### Test server
+## Test server
 
     > SET DEBUG=server:*
     > npm start
 
 open http://localhost:3000/ in browser
 
-### Create dockerfile for server
+## Create dockerfile for server
 
 navigate to /server
 create Dockerfile (see example file /server/dockerfile)
 
-### Test server dockerfile
+## Test server dockerfile
 
 navigate to /server
 ```
@@ -209,6 +209,6 @@ Note - we use tianon/true for the image. All this does is return `true` - we're 
     $ docker-compose build 
     $ docker-compose up 
 
-## TODO 
+# TODO 
 
 * Remove db access stuff from api.js file and put in its own file.
