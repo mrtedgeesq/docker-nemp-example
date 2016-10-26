@@ -99,8 +99,8 @@ Go to the ip shown in your browser
 
 This will output something like 
 
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                NAMES
-61f519699247        tomedge/nemp-client      "nginx"             About an hour ago   Up About an hour    0.0.0.0:80->80/tcp   sleepy_nobel
+    CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                NAMES
+    61f519699247        tomedge/nemp-client      "nginx"             About an hour ago   Up About an hour    0.0.0.0:80->80/tcp   sleepy_nobel
 
 Stop the appropriate container using 
 
