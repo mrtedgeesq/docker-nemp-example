@@ -43,6 +43,8 @@ https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
 
 # Howto
 
+If you want to do something similar, follow the steps below. Note: I haven't tested this procedure - these were just my rough notes as I built this example. Please let me know if you have any issues with it and try to help you.
+
 ## Setup environment
 Install:
 * node
