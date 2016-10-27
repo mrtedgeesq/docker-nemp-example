@@ -1,8 +1,13 @@
+//Routing
 var express = require('express');
 var router = express.Router();
 
-// Database Access
+// Db
 var mongoose = require('mongoose');
+
+// ==============================================
+// DB CONNECTION
+// ==============================================
 
 var dbConnected = false;
 
@@ -26,11 +31,15 @@ db.once('open', function() {
 var messageSchema = mongoose.Schema({content: String}); // Define a simple schema for Message, which just has a content property in it
 var Message = mongoose.model('Message', messageSchema); // Compile the schema into a model
 
+// ==============================================
+// API ROUTES
+// ==============================================
+
 router.get('/', function(req, res, next) {
   res.send('Api says Hola');
 });
 
-//Route to test db connection
+//Route to test connection
 router.route('/ping')
 
   //get all archived batches

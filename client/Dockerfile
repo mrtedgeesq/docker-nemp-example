@@ -1,8 +1,3 @@
-
-#Based on:
-#https://github.com/philipjkim/docker-polymer-cli-nginx
-#https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
-
 # Use the official node image
 FROM node:4-slim
 

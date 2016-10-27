@@ -42,6 +42,9 @@ http://mongoosejs.com/docs/
 * Using polymer cli to build polymer app in docker
 https://hub.docker.com/r/jefferyb/polymer-cli/~/dockerfile/
 
+* Using polymer cli to build in docker
+https://github.com/philipjkim/docker-polymer-cli-nginx
+
 # Howto
 
 If you want to do something similar, follow the steps below. Note: I haven't tested this procedure - these were just my rough notes as I built this example. Please let me know if you have any issues with it and I'll try to help you.
@@ -213,3 +216,4 @@ Note - we use tianon/true for the image. All this does is return `true` - we're 
 # TODO 
 
 * Remove db access stuff from api.js file and put in its own file.
+* Add db + server connection strings to environment variables
